@@ -1,23 +1,27 @@
 ﻿namespace Practice1
 {
-    class PoliceCar : Vehicle
+    public class PoliceCar : PlateVehicle
     {
         //constant string as TypeOfVehicle wont change allong PoliceCar instances
-        private const string typeOfVehicle = "Police Car"; 
+        private const string typeOfVehicle = "Police Car";
+        private bool isChasing;
+        private string followedPlate;
         private bool isPatrolling;
         private SpeedRadar speedRadar;
 
         public PoliceCar(string plate) : base(typeOfVehicle, plate)
         {
             isPatrolling = false;
+            isChasing = false;
+            followedPlate = "";
             speedRadar = new SpeedRadar();
         }
 
-        public void UseRadar(Vehicle vehicle)
+        public void UseRadar(PlateVehicle plateVehicle)
         {
             if (isPatrolling)
             {
-                speedRadar.TriggerRadar(vehicle);
+                speedRadar.TriggerRadar(plateVehicle);
                 string meassurement = speedRadar.GetLastReading();
                 Console.WriteLine(WriteMessage($"Triggered radar. Result: {meassurement}"));
             }
@@ -27,10 +31,24 @@
             }
         }
 
-        public bool IsPatrolling()
+        public bool GetIsPatrolling()
         {
             return isPatrolling;
         }
+
+        public void SetFollowedPlate(string plate)
+        {
+            if (isPatrolling)
+            {
+                if (!isChasing)
+                {
+                    isChasing = true;
+                    followedPlate = plate;
+                }
+            }
+        }
+
+
 
         public void StartPatrolling()
         {
