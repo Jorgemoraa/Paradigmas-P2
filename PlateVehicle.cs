@@ -15,5 +15,10 @@ namespace Practice1
 		{
 			return plate;
 		}
-	}
+
+        public override string ToString()
+        {
+            return $"{GetTypeOfVehicle()} with plate {plate}";
+        }
+    }
 }
